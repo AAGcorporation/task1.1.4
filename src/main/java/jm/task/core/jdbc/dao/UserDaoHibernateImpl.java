@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,7 +24,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session.createSQLQuery("CREATE TABLE IF NOT EXISTS users" +
                     "(id SERIAL PRIMARY KEY, name VARCHAR(255), last_name VARCHAR(255), age INT)").executeUpdate();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null)
                 transaction.rollback();
@@ -38,7 +39,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.createSQLQuery("DROP TABLE IF EXISTS users").executeUpdate();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null)
                 transaction.rollback();
@@ -54,7 +55,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.save(new User(name, lastName, age));
             transaction.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null)
                 transaction.rollback();
@@ -70,7 +71,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.delete(session.get(User.class, id));
             transaction.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null)
                 transaction.rollback();
@@ -90,7 +91,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 System.out.println(user);
             }
             transaction.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null)
                 transaction.rollback();
@@ -107,7 +108,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.createQuery("delete from User").executeUpdate();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
             if (transaction != null)
                 transaction.rollback();
